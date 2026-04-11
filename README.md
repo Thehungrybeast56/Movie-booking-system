@@ -1,1 +1,8 @@
 # Movie-booking-system
+The Movie Booking System Project is designed to create an application that allows users to easily book movie tickets through a digital platform. The system combines **Java for the graphical user interface (GUI)** and **Python for backend processing**, while a **atabase such as MySQL or SQLite** is used to store and manage information related to users, movies, shows, seats, and bookings. 
+
+The project includes several important features for both **users and administrators**. Users can register and log into the system, view available movies, check show timings, select seats, and book tickets. The system also includes a **payment simulation and booking confirmation process**, which generates a ticket after successful booking. On the administrative side, the admin can **add, update, or delete movies, manage show timings, and view booking records**, allowing efficient management of the entire movie booking system. 
+
+The workflow of the project explains the step-by-step interaction between the user and the system, starting from opening the application and logging in, to selecting a movie, choosing seats, confirming the booking, and finally generating the ticket. The architecture follows a structured approach where the **Java frontend communicates with the Python backend through APIs**, and the backend processes requests and interacts with the database. This design helps in organizing the system efficiently and makes the project scalable and easy to manage. 
+
+Overall, the project demonstrates the integration of **frontend development, backend logic, database management, and API communication** to build a complete movie ticket booking application. 
