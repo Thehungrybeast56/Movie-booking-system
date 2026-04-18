@@ -23,3 +23,11 @@ class Show(db.Model):
     movie_id = db.Column(db.Integer, db.ForeignKey('Movies.movie_id'))
     time = db.Column(db.String(20))
     screen = db.Column(db.String(20))
+
+class Booking(db.Model):
+    __tablename__ = 'Bookings'
+    booking_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.user_id'))
+    show_id = db.Column(db.Integer, db.ForeignKey('Shows.show_id'))
+    seats = db.Column(db.Integer)
+    total_price = db.Column(db.Float)

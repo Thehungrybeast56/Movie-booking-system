@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 # IMPORT THE DB AND THE USER MODEL FROM MODELS.PY
-from models import db, User, Movie, Show # ADDED THIS LINE TO IMPORT THE MOVIE AND SHOW MODELS
+from models import db, User, Movie, Show, Booking # ADDED THIS LINE TO IMPORT THE MOVIE AND SHOW MODELS
 
 app = Flask(__name__)
 CORS(app)
@@ -68,6 +68,52 @@ def get_shows(movie_id):
             "screen": show.screen
         }
         output.append(show_data)
+    return jsonify(output)
+
+@app.route('/book', methods=['POST'])
+def book_ticket():
+    data = request.get_json()
+    show_id = data.get('show_id')
+    requested_seats = data.get('seats')
+    
+    # 1. Seat Availability Check
+    # Calculate how many seats are already taken for this show
+    existing_bookings = Booking.query.filter_by(show_id=show_id).all()
+    occupied_seats = sum(b.seats for b in existing_bookings)
+    
+    capacity = 50 # Example: total capacity per screen
+    
+    if (occupied_seats + requested_seats) > capacity:
+        return jsonify({"message": "Not enough seats available!", "available": capacity - occupied_seats}), 400
+
+    # 2. Create the Booking
+    try:
+        new_booking = Booking(
+            user_id=data.get('user_id'),
+            show_id=show_id,
+            seats=requested_seats,
+            total_price=requested_seats * 12.0 # Assuming $12 per ticket
+        )
+        db.session.add(new_booking)
+        db.session.commit()
+        return jsonify({"message": "Booking successful!", "booking_id": new_booking.booking_id}), 201
+    except Exception as e:
+        return jsonify({"message": "Booking failed", "error": str(e)}), 400
+
+@app.route('/booking-history/<int:user_id>', methods=['GET'])
+def get_history(user_id):
+    # This looks inside the Bookings table for all rows matching the user_id
+    history = Booking.query.filter_by(user_id=user_id).all()
+    output = []
+    
+    for b in history:
+        output.append({
+            "booking_id": b.booking_id,
+            "show_id": b.show_id,
+            "seats": b.seats,
+            "total_price": b.total_price
+        })
+        
     return jsonify(output)
 
 if __name__ == '__main__':
