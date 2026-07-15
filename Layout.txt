@@ -1,0 +1,18 @@
+movie-booking-system/
+│
+├── backend-python/
+│   ├── add_movies_2.py
+│   ├── app_2.py
+│   ├── models_2.py
+│   ├── routes.py
+│   └── test_api_2.py
+│
+├── java-frontend/
+│   ├── Booking.java
+│   ├── Login.java
+│   ├── Movies.java
+│   └── Register.java
+│
+├── database/
+│   └── movie_booking_3.db
+└── README_2.md
